@@ -6,5 +6,6 @@
     {
         public string Name { get; set; }
         public PlayerCode PlayerCode { get; set; }
+        public bool IsAIPlayer { get; set; } = false;
     }
 }

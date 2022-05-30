@@ -6,7 +6,8 @@ public class ToeGame
 {
     public ToeGame(int boardSize,
         string playerXName, PlayerCode playerXCode,
-        string playerOName, PlayerCode playerOCode)
+        string playerOName, PlayerCode playerOCode,
+        bool playWithAI)
     {
         Board = new Board(boardSize);
         PlayerX = new Player
@@ -17,7 +18,8 @@ public class ToeGame
         PlayerO = new Player
         {
             Name = playerOName,
-            PlayerCode = playerOCode
+            PlayerCode = playerOCode,
+            IsAIPlayer = playWithAI
         };
     }
 

@@ -7,14 +7,15 @@ public class TicTacToeGame
     private readonly ToeGame Game;
     Player chancePlayer;
     Player? winPlayer;
-    public TicTacToeGame(int boardSize, string playerXName, string playerOName)
+    public TicTacToeGame(int boardSize, string playerXName, string playerOName, bool playWithAI)
     {
-        Game = new ToeGame(boardSize, playerXName, Models.Enums.PlayerCode.X, playerOName, Models.Enums.PlayerCode.O);
+        Game = new ToeGame(boardSize, playerXName, Models.Enums.PlayerCode.X, playerOName, Models.Enums.PlayerCode.O, playWithAI);
         chancePlayer = Game.PlayerX;
     }
 
     public void Play()
     {
+        winPlayer = null;
         do
         {
             Console.Clear();
@@ -31,19 +32,42 @@ public class TicTacToeGame
             {
                 if (Game.Board.SetCodeToItem(choice, chancePlayer.PlayerCode))
                 {
-                    if (chancePlayer == Game.PlayerX)
-                        chancePlayer = Game.PlayerO;
+                    if (Game.PlayerO.IsAIPlayer)
+                    {
+                        Console.Clear();
+                        Game.Board.PaintBoard();
+                        Console.WriteLine("Please wait the Ai player is playing.....");
+                        Thread.Sleep(2000);
+
+                        var notChoicesItems = Game.Board.BoardItems.Where(a => !a.Code.HasValue).ToList();
+                        if (notChoicesItems != null && notChoicesItems.Any())
+                        {
+                            var random = new Random();
+                            int index = random.Next(notChoicesItems.Count());
+                            var aiRandogChoice = notChoicesItems[index];
+                            if (aiRandogChoice != null)
+                                Game.Board.SetCodeToItem(aiRandogChoice.Id, Game.PlayerO.PlayerCode);
+                        }
+                    }
                     else
-                        chancePlayer = Game.PlayerX;
+                    {
+                        if (chancePlayer == Game.PlayerX)
+                            chancePlayer = Game.PlayerO;
+                        else
+                            chancePlayer = Game.PlayerX;
+                    }
 
                     winPlayer = Game.IsWin();
                 }
             }
         }
-        while (winPlayer is null);
+        while (winPlayer is null && Game.Board.BoardItems.Any(a => !a.Code.HasValue));
         Console.Clear();
         Game.Board.PaintBoard();
-        Console.WriteLine($"Player {winPlayer.Name} has won");
-        Console.ReadLine();
+
+        if (winPlayer is null)
+            Console.WriteLine($"No woners");
+        else
+            Console.WriteLine($"Player {winPlayer.Name} has won");
     }
 }
