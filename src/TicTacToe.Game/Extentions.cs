@@ -8,7 +8,7 @@
             string lineDash = "------";
             for (int i = 0; i < boarSize; i++)
             {
-                lineDash += "-----";
+                lineDash += "-------";
             }
             return lineDash;
         }

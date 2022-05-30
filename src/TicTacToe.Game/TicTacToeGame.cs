@@ -1,39 +1,49 @@
 ﻿namespace TicTacToe.Game;
 
 using TicTacToe.Game.Models;
-using TicTacToe.Game.Models.Enums;
 
 public class TicTacToeGame
 {
     private readonly ToeGame Game;
+    Player chancePlayer;
+    Player? winPlayer;
     public TicTacToeGame(int boardSize, string playerXName, string playerOName)
     {
         Game = new ToeGame(boardSize, playerXName, Models.Enums.PlayerCode.X, playerOName, Models.Enums.PlayerCode.O);
+        chancePlayer = Game.PlayerX;
     }
 
     public void Play()
     {
-        Game.Board.PaintBoard();
-    }
-
-    public void SetCode(int id, PlayerCode Code)
-    {
-        var item = Game.Board.BoardItems.FirstOrDefault(x => x.Id == id);
-        if (!item.Code.HasValue)
+        do
         {
-            item.Code = Code;
-        }
-        else
-        {
-            Console.WriteLine("Sorry the row {0} is already marked with {1}", id, item.Code.Value);
+            Console.Clear();
+            Console.WriteLine($"{Game.PlayerX.Name}:X and {Game.PlayerO.Name}:O");
             Console.WriteLine("\n");
-            Console.WriteLine("Please wait 2 second board is loading again.....");
-            Thread.Sleep(2000);
-        }
-    }
-    public Player? IsWin()
-    {
-        return Game.IsWin();
-    }
 
+            Console.WriteLine($"{chancePlayer.Name} Chance");
+
+            Console.WriteLine("\n");
+            Game.Board.PaintBoard();
+
+            var choiceInput = Console.ReadLine();
+            if (!string.IsNullOrEmpty(choiceInput) && int.TryParse(choiceInput, out int choice))
+            {
+                if (Game.Board.SetCodeToItem(choice, chancePlayer.PlayerCode))
+                {
+                    if (chancePlayer == Game.PlayerX)
+                        chancePlayer = Game.PlayerO;
+                    else
+                        chancePlayer = Game.PlayerX;
+
+                    winPlayer = Game.IsWin();
+                }
+            }
+        }
+        while (winPlayer is null);
+        Console.Clear();
+        Game.Board.PaintBoard();
+        Console.WriteLine($"Player {winPlayer.Name} has won");
+        Console.ReadLine();
+    }
 }

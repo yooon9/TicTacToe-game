@@ -1,8 +1,7 @@
-﻿namespace TicTacToe.Game.Models.Enums
+﻿namespace TicTacToe.Game.Models.Enums;
+
+public enum PlayerCode
 {
-    public enum PlayerCode
-    {
-        X,
-        O
-    }
+    X,
+    O
 }
