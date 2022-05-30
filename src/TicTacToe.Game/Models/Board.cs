@@ -17,7 +17,7 @@ public class Board
         int id = 1;
         for (int y = 0; y < boardSize; y++)
         {
-            for (int x = boardSize; x > 0; x--)
+            for (int x = boardSize-1; x >= 0; x--)
             {
                 BoardItems.Add(new BoardItem
                 {
