@@ -40,7 +40,7 @@ public class TicTacToeGame
                         Thread.Sleep(2000);
 
                         var notChoicesItems = Game.Board.BoardItems.Where(a => !a.Code.HasValue).ToList();
-                        if (notChoicesItems != null && notChoicesItems.Any())
+                        if (notChoicesItems is not null && notChoicesItems.Any())
                         {
                             var random = new Random();
                             int index = random.Next(notChoicesItems.Count());

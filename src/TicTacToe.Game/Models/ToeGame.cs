@@ -30,21 +30,21 @@ public class ToeGame
     //Checking that any player has won or not
     public Player? IsWin()
     {
-        Player? won = null;
+        Player? won;
         for (int y = 0; y < Board.Size; y++)
         {
             var yRows = Board.BoardItems
                .Where(a => a.IndexY == y)
                .ToList();
             won = ValidatePlayer(yRows);
-            if (won != null)
+            if (won is not null)
                 return won;
 
             var xRows = Board.BoardItems
                .Where(a => a.IndexX == y)
                .ToList();
             won = ValidatePlayer(xRows);
-            if (won != null)
+            if (won is not null)
                 return won;
         }
 
@@ -52,13 +52,13 @@ public class ToeGame
         for (int y = 1; y <= Board.Size; y++)
         {
             var xxyRow = Board.BoardItems.FirstOrDefault(a => a.IndexY == y - 1 && a.IndexX == Board.Size - y);
-            if (xxyRow != null)
+            if (xxyRow is not null)
             {
                 xxyRows.Add(xxyRow);
             }
         }
         won = ValidatePlayer(xxyRows);
-        if (won != null)
+        if (won is not null)
             return won;
 
         var xyRows = Board.BoardItems.Where(a => a.IndexX == a.IndexY).ToList();
