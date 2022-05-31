@@ -1,4 +1,4 @@
-# TicTacToe Game - X-O - c# console application
+# TicTacToe Game - (X O) - c# console application
 - in this game you can select your game board size
 - for example if you are select 4 size you will see board like this
 
